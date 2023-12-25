@@ -8,10 +8,10 @@ library(Cairo)         # Load the Cairo package for generating graphics
 
 # Load training and testing data (temporary, for reusability; may be removed later)
 # The paths to data files are specified here
-K = 1000
-theta = 0.8
+K = 50
+theta = 0.2
 file = "~/personal/spike-slab-analysis/reusable_functions/simulation_studies/"
-file_name = paste0("sp_sl_model_",K,"_theta_",(100*theta),".RData")
+file_name = paste0("sim_data_K_",K,"_theta_",(100*theta),".RData")
 file = paste0(file,file_name)
 load(file)  # Load the training data
 SNPS = scale(sim_data[['SNPs']])
@@ -59,6 +59,7 @@ coef <- sp_sl_model$postMeans
 
 setwd("~/personal/spike-slab-analysis/reusable_functions/simulation_studies")
 # Save the fitted model to a file for later use
+file_name = paste0("sp_sl_model_K_",K,"_theta_",(100*theta),".RData")
 save(sp_sl_model, file = file_name)
 
 
