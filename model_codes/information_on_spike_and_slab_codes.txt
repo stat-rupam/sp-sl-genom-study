@@ -1,0 +1,39 @@
+# Required information for spike and slab model analysis codes
+
+
+## Directory Structure
+
+- `spike-slab-analysis/` (root directory)
+  - `train_data.RData`: Training data in RData format.
+  - `test_data.RData`: Testing data in RData format.
+  - `reusable_functions/`: Directory containing reusable R functions.
+
+## List of Scripts
+
+### 1. Spike-and-Slab Analysis
+
+- `spikeslab_GAM.R`: An R script that performs spike-and-slab regression on the training data and saves the results in an RData file. The script also includes MCMC chain diagnostics.
+
+### 2. R_p_plot Function
+
+- `plot_function.R`: An R script that defines the `R_p_plot` function used in plotting R-squared values against log inclusion probabilities.
+
+### 3. Ridge and Lasso Regression
+
+- `ridge-lasso-sample-code.R`: An R script that performs Ridge and Lasso regression on the training data for multiple phenotypes. 
+                               The results are saved in RData files, and R-squared vs. log(lambda) plots are generated.
+
+### 4. Spike-slab model prediction performence analysis
+- `spike_slab_model_prediction_performence.R`: This script loads a custom R function and performs spike-and-slab regression analysis on a specific phenotype, 
+                                               generating R-squared vs. log inclusion probability plots and storing the results in a data frame.
+
+## Usage Instructions
+
+1. Place the training and testing data files in the root directory (`spike-slab-analysis/`).
+
+2. Run the scripts in the following order:
+   - `spike_slab_analysis.R` for spike-and-slab analysis.
+   - `R_p_plot_function.R` to define the `R_p_plot` function.
+   - `ridge_lasso_regression.R` for Ridge and Lasso regression.
+   -`spike_slab_model_prediction_performence.R` for spike and slab model prediction
+
