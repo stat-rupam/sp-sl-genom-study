@@ -8,7 +8,7 @@ library(Cairo)         # Load the Cairo package for generating graphics
 
 # Load training and testing data (temporary, for reusability; may be removed later)
 # The paths to data files are specified here
-K = 50
+K = 500
 theta = 0.2
 file = "~/personal/spike-slab-analysis/reusable_functions/simulation_studies/"
 file_name = paste0("sim_data_K_",K,"_theta_",(100*theta),".RData")
