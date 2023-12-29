@@ -8,8 +8,8 @@ library(Cairo)         # Load the Cairo package for generating graphics
 
 # Load training and testing data (temporary, for reusability; may be removed later)
 # The paths to data files are specified here
-K = 500
-theta = 0.2
+K = 100
+theta = 0.5
 file = "~/personal/spike-slab-analysis/reusable_functions/simulation_studies/"
 file_name = paste0("sim_data_K_",K,"_theta_",(100*theta),".RData")
 file = paste0(file,file_name)
@@ -30,7 +30,7 @@ y <- Y_train # Extract the response variable
 # Define hyperparameters for the spike-and-slab regression model
 # Hyperparameters for the Beta-Beta prior for weights (w)
 # Default values are for a uniform distribution.
-w <- c(alphaW = 2, betaW = 2)
+w <- c(alphaW = 1, betaW = 1)
 
 # Hyperparameters for the inverse gamma (GAMMA^-1) prior of the hypervariances (tau^2)
 # Default values determine the shape and scale of the prior distribution.
@@ -59,7 +59,6 @@ coef <- sp_sl_model$postMeans
 
 setwd("~/personal/spike-slab-analysis/reusable_functions/simulation_studies")
 # Save the fitted model to a file for later use
-file_name = paste0("sp_sl_model_K_",K,"_theta_",(100*theta),".RData")
 save(sp_sl_model, file = file_name)
 
 
