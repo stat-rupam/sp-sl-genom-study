@@ -1,6 +1,6 @@
 # Load the sys library (assuming it's not a typo, sys is not a standard R package)
 library(sys)
-K = 100
+K = 1000
 theta = 0.2
 n = 5000
 file = "~/personal/spike-slab-analysis/reusable_functions/simulation_studies/"
@@ -14,7 +14,7 @@ load(file_name_data)
 #actual R_p
 R_p_act = sim_data[['R_p_act']]
 # Create a model object for further analysis
-model <- sp_sl_model_K_50_theta_80
+model <- sp_sl_model
 
 # Extract the estimated beta coefficients and pi values from the model
 beta <- model$postMeans$beta
