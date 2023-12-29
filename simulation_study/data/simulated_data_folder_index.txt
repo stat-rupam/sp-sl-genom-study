@@ -1,0 +1,2 @@
+simulated_data_i: simulated data for sigma_e = 1, sigma_beta = 1
+simulated_data_ii: simulated data for sigma_e = 5, sigma_beta = 10
