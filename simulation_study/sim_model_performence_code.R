@@ -1,13 +1,15 @@
 # Load the sys library (assuming it's not a typo, sys is not a standard R package)
 library(sys)
-K = 1000
-theta = 0.2
+K = 50
+theta = 0.5
 n = 5000
-file = "~/personal/spike-slab-analysis/reusable_functions/simulation_studies/"
+folder = "simulated_data_iii/"
+file_path_data = paste0("~/personal/spike-slab-analysis/reusable_functions/simulation_studies/",folder)
 file_name_data = paste0("sim_data_K_",K,"_theta_",(100*theta),".RData")
+file_path_model = "~/personal/spike-slab-analysis/reusable_functions/simulation_studies/"
 file_name_model = paste0("sp_sl_model_K_",K,"_theta_",(100*theta),".RData")
-file_name_data = paste0(file,file_name_data)
-file_name_model = paste0(file,file_name_model)
+file_name_data = paste0(file_path_data,file_name_data)
+file_name_model = paste0(file_path_model,file_name_model)
 load(file_name_model)
 load(file_name_data)
 
@@ -59,7 +61,8 @@ for (prob in coef$pi[-length(coef$pi)]) {
 
 # Create a data frame to store R-squared values and associated probabilities
 R_p <- ss
-print(data.frame(R_p_act,max(R_p)))
+print(data.frame(R_p_act,max(R_p),K-num_of_var[R_p==max(R_p)]))
+print(sp_sl_model$hyperparameters$w)
 prob <- coef$pi[-length(coef$pi)]
 df <- data.frame(R_p, prob, num_of_var)
 

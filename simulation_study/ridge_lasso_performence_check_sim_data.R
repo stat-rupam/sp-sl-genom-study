@@ -4,13 +4,15 @@ library(Cairo)
 library(sys)
 
 K = 50
-theta = 0.8
+theta = 0.2
 n = 5000
-file = "~/personal/spike-slab-analysis/reusable_functions/simulation_studies/"
+folder = "simulated_data_iii/"
+file_path_data = paste0("~/personal/spike-slab-analysis/reusable_functions/simulation_studies/",folder)
 file_name_data = paste0("sim_data_K_",K,"_theta_",(100*theta),".RData")
+file_path_model = "~/personal/spike-slab-analysis/reusable_functions/simulation_studies/"
 file_name_model = paste0("sp_sl_model_K_",K,"_theta_",(100*theta),".RData")
-file_name_data = paste0(file,file_name_data)
-file_name_model = paste0(file,file_name_model)
+file_name_data = paste0(file_path_data,file_name_data)
+file_name_model = paste0(file_path_model,file_name_model)
 load(file_name_model)
 load(file_name_data)
 
@@ -54,4 +56,9 @@ R2_ridge<-as.vector(apply(predictions_ridge, 2, function(col) 1-sum((col - y_new
 R2_lasso<-as.vector(apply(predictions_lasso, 2, function(col) 1-sum((col - y_new)^2)/n/var(y_new)))
 # ss_y_lasso[[pheno]]<-data.frame(lambda_lasso,R2_lasso)
 
-print(data.frame(R_p_act, max(R2_ridge), max(R2_lasso)))
+num_var_lasso = apply(coef(lasso_model), 2, function(x) sum(x != 0))
+
+print(data.frame(R_p_act, max(R2_ridge), max(R2_lasso), number_of_var=num_var_lasso[R2_lasso==max(R2_lasso)]
+                 ))
+print(R2_lasso[num_var_lasso<=K*theta])
+
