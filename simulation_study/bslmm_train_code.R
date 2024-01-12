@@ -33,11 +33,11 @@ y <- Y_train # Extract the response variable
 Id<-1:length(y)
 df<-data.frame(Id,y,X)
 bslmm_model <- ibrm(y~.,data=df,M=X,M.id=1:length(y),method="BSLMM"
-                      ,niter = 10000
-                      ,nburn = 2000)
+                      ,niter = 25000
+                      ,nburn = 5000)
 beta<-bslmm_model$beta
 setwd("~/personal/spike-slab-analysis/reusable_functions/simulation_studies")
 # Save the fitted model to a file for later use
 file_name = paste0("bslmm_model_K_",K,"_theta_",(100*theta),".RData")
-save(bvsr_model, file = file_name)
+save(bslmm_model, file = file_name)
 stopCluster(cl)
