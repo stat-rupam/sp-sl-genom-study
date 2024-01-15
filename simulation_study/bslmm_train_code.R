@@ -12,7 +12,7 @@ registerDoParallel(cl)
 # Load training and testing data (temporary, for reusability; may be removed later)
 # The paths to data files are specified here
 K = 100
-theta = 0.2
+theta = 0.8
 file = "~/personal/spike-slab-analysis/reusable_functions/simulation_studies/"
 file_name = paste0("sim_data_K_",K,"_theta_",(100*theta),".RData")
 folder = "simulated_data_v/"
