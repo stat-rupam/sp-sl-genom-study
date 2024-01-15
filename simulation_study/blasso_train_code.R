@@ -6,12 +6,13 @@ library(monomvn)  # Load the spikeSlabGAM package for the analysis
 library(coda)          # Load the coda package for MCMC chain diagnostics
 library(Cairo)         # Load the Cairo package for generating graphics
 library(doParallel)
+library(hibayes)
 cl <- makePSOCKcluster(50)
 registerDoParallel(cl)
 # Load training and testing data (temporary, for reusability; may be removed later)
 # The paths to data files are specified here
 K = 100
-theta = 0.5
+theta = 0.2
 file = "~/personal/spike-slab-analysis/reusable_functions/simulation_studies/"
 file_name = paste0("sim_data_K_",K,"_theta_",(100*theta),".RData")
 folder = "simulated_data_v/"
@@ -29,7 +30,11 @@ Y_test = Y[(n+1):(2*n)]
 # Extract the predictors (features) and choose a specific phenotype for analysis
 X <- training_set  # Extract the predictor variables
 y <- Y_train # Extract the response variable
-blasso_model <- blasso(X,y,T=10000)
+Id<-1:length(y)
+df<-data.frame(Id,y,X)
+blasso_model <- ibrm(y~.,data=df,M=X,M.id=1:length(y),method="BayesL"
+                    ,niter = 25000
+                    ,nburn = 5000)
 beta<-blasso_model$beta
 setwd("~/personal/spike-slab-analysis/reusable_functions/simulation_studies")
 # Save the fitted model to a file for later use
