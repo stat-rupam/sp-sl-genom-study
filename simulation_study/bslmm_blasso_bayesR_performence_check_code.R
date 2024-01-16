@@ -1,7 +1,7 @@
 # Load the sys library (assuming it's not a typo, sys is not a standard R package)
 library(sys)
-K = 100
-theta = 0.5
+K = 1000
+theta = 0.8
 n = 5000
 folder = "simulated_data_v/"
 file_path_data = paste0("~/personal/spike-slab-analysis/reusable_functions/simulation_studies/",folder)
@@ -31,7 +31,7 @@ y_test = sim_data[['Y']][(n+1):(2*n)]
 X_new <- as.matrix(testing_set)
 y_new <- y_test
 
-p_y_hat <- beta[1] + X_new %*% beta[2:101]
+p_y_hat <- beta[1] + X_new %*% beta[2:(K+1)]
 
 
 # Calculate R-squared for the current model
