@@ -1,10 +1,10 @@
 # Load the sys library (assuming it's not a typo, sys is not a standard R package)
 library(sys)
-K = 100
+K = 1000
 theta = 0.2
 n = 5000
-folder_data_index = "iii" #iii,iv,v
-folder_model_index = 70 #70,50,30
+folder_data_index = "iv" #iii,iv,v
+folder_model_index = 50 #70,50,30
 non_zero_coef_index = 1:(K*theta)
 
 file = "~/personal/spike-slab-analysis/reusable_functions/simulation_studies/"
@@ -58,23 +58,25 @@ for (prob in coef$pi[-length(coef$pi)]) {
   # Calculate R-squared for the current model
   ss_y_hat <- 1 - (sum((y_new - p_y_hat)^2) / n) / var(y_new)
   size <- dim(coef_new)[1]
+  
   common_var <- length(intersect(non_zero_coef_index,coef_new$index))
-  exclusive_var <- min(0,size-length(intersect(non_zero_coef_index,coef_new$index)))
+  print(common_var)
+  exclusive_var <- min(0,length(intersect(non_zero_coef_index,coef_new$index)))
                            
   print(ss_y_hat)
   
   # Append the R-squared value to the results vector
   ss <- c(ss, ss_y_hat)
-  num_of_var <- c(size, num_of_var)
-  num_exclusive_var <- c(exclusive_var,num_exclusive_var)
-  num_common_var <- c(common_var,num_common_var)
-  
+  num_of_var <- c(num_of_var, size)
+  num_exclusive_var <- c(num_exclusive_var,exclusive_var)
+  num_common_var <- c(num_common_var,common_var)
 }
 
 # Create a data frame to store R-squared values and associated probabilities
 R_p <- ss
-print(data.frame(R_p_act,max(R_p), num_of_var[R_p==max(R_p)],
-                 num_common_var[R_p==max(R_p)],num_exclusive_var[R_p==max(R_p)]))
+print(data.frame(R_p_act,max(R_p), num_var=num_of_var[R_p==max(R_p)],
+                 common=num_common_var[R_p==max(R_p)],
+                 exclusive=num_exclusive_var[R_p==max(R_p)]))
 prob <- coef$pi[-length(coef$pi)]
 df <- data.frame(R_p, prob, num_of_var,num_common_var,num_exclusive_var)
-df
+
