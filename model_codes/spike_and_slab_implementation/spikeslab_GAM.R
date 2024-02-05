@@ -5,8 +5,8 @@ library(Cairo)         # Load the Cairo package for generating graphics
 
 # Load training and testing data (temporary, for reusability; may be removed later)
 # The paths to data files are specified here
-load("~/personal/spike-slab-analysis/train_data.RData")  # Load the training data
-load("~/personal/spike-slab-analysis/test_data.RData")   # Load the testing data
+load("~/personal/spike-slab-analysis/train_data_10000.RData")  # Load the training data
+load("~/personal/spike-slab-analysis/test_data_10000.RData")   # Load the testing data
 
 # Extract the predictors (features) and choose a specific phenotype for analysis
 X <- training_set[,-c(1:10)]  # Extract the predictor variables
@@ -37,17 +37,18 @@ sigma2 <- c(b1 = 1e-4, b2 = 1e-4)
 
 # Perform spike-and-slab regression on the data
 sp_sl_model_R <- spikeAndSlab(y, X, 
-                                  mcmc = list(nChains = 1, chainlength = 25000, burnin = 5000, thin = 1, sampleY = TRUE),
-                                  hyperparameters = list(w = w, tau2 = tau2, gamma = gamma, sigma2 = sigma2))
+                              mcmc = list(nChains = 1, chainlength = 25000, burnin = 5000, thin = 1, sampleY = TRUE),
+                              hyperparameters = list(w = w, tau2 = tau2, gamma = gamma, sigma2 = sigma2))
 
 # Get the posterior means of the model parameters
 coef <- sp_sl_model_R$postMeans
 
+file = paste0("sp_sl_model_",pheno,"_10000.RData")
 # Save the fitted model to a file for later use
-save(sp_sl_model_R, file = "sp_sl_model_R.RData")
+save(sp_sl_model_R, file = file)
 
 # MCMC Chain Diagnostics
-sample <- sample(1:211, 10)  # Select 10 random samples from the MCMC chains
+sample <- sample(1:90, 10)  # Select 10 random samples from the MCMC chains
 
 # Loop over the selected samples for diagnostic analysis
 for (s in sample) {
