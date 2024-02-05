@@ -8,11 +8,10 @@ load("~/personal/spike-slab-analysis/train_data_10000.RData")  # Load the traini
 load("~/personal/spike-slab-analysis/test_data_10000.RData")   # Load the testing data
 
 # Extract the predictors (features) and choose a specific phenotype for analysis
-X <- training_set[,-c(1:10)]  # Extract the predictor variables
+df1 <- training_set[,-c(1:10)]  # Extract the predictor variables
 pheno = 'R'                  # Specify the phenotype of interest
-y <- training_set[[pheno]]    # Extract the response variable
-df1<-data.frame(X,y)
-boom_sp_sl_R <- lm.spike(R ~. , df1[-1], verbose=TRUE,niter = 25000,
+df1[[pheno]] <- training_set[[pheno]]    # Extract the response variable
+boom_sp_sl_R <- lm.spike(R ~. , df1,niter = 25000,
                          prior.information.weight = 10^-3,
                          diagonal.shrinkage = 0.00025)
 coef_df_list[[pheno]] <- boom_sp_sl_R$summary[1:2]
