@@ -7,13 +7,16 @@ setwd("C:/Users/rupam.basu/Documents/personal/spike-slab-analysis")
 #load the covariates and phenotype values
 load("~/personal/spike-slab-analysis/pigmentation_data_for_Sabya.RData")
 
+#load required functions
+source("~/personal/spike-slab-analysis/reusable_functions/correlation_filter.R")
+
 #load the genotype values
 data_genio = read_plink("cand16pigm2_geno")
 format(object.size(data_genio), units = "auto")
 genomat=t(data_genio$X); # 6237 rows and 127857 cols
 bim=data_genio$bim;
 rm(data_genio)
-k=200;
+k=10000;
 f=sample.int(nrow(bim), size=k, replace = FALSE)
 subgeno=data.frame(genomat[,f]);
 subgeno$IID=rownames(subgeno)
@@ -21,6 +24,7 @@ subgeno$IID=rownames(subgeno)
 #join  the covariates, phenotypes and the genotypes tables
 joined_table <- merge(phenod, cov, by = "IID",all.y = T)
 joined_table <- merge(joined_table, subgeno, by = "IID",all.y = T)
+joined_table <- merge(joined_table, geno, by = "IID",all.y = T)
 
 col_means <- colMeans(joined_table[, -1], na.rm = TRUE)
 df <- joined_table
@@ -56,5 +60,5 @@ num_test_rows <- round(test_size * total_rows)
 test_indices <- sample(total_rows, num_test_rows)
 training_set <- df_modified1[-test_indices, ]
 testing_set <- df_modified1[test_indices, ]
-# save(training_set,file="train_data_2000.RData")
-# save(testing_set,file="test_data_2000.RData")
+save(training_set,file="train_data_10000.RData")
+save(testing_set,file="test_data_10000.RData")
