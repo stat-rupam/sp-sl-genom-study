@@ -14,9 +14,9 @@ df1[[pheno]] <- training_set[[pheno]]    # Extract the response variable
 boom_sp_sl_R <- lm.spike(R ~. , df1,niter = 25000,
                          prior.information.weight = 10^-3,
                          diagonal.shrinkage = 0.00025)
-coef_df_list[[pheno]] <- boom_sp_sl_R$summary[1:2]
-
-file = paste0("boom_spike_slab_output_",pheno,".RData"
+coef_df <- summary(boom_sp_sl_R)$coef
+coef_df <- data.frame(coef_df)
+file = paste0("boom_spike_slab_output_",pheno,".RData")
 save(boom_sp_sl_R, file=file)
               
 #fit <- spikeslab(forumula,df1[-1], verbose=TRUE,n.iter1 = 500, n.iter2 = 100)
