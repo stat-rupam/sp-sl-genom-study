@@ -1,8 +1,8 @@
 library(rjags)
 library(MCMCpack)
 
-spike_slab_linear<-function(X,y,model_file,params,n_chain,chain_length,
-                            burnin,b1 = 1.0, b2 = 1.0, 
+spike_slab_linear<-function(X, y, model_file, params, n_chain,chain_length,
+                            burnin, thin=1, b1 = 1.0, b2 = 1.0, 
                             a_pi = 1.0, b_pi = 1.0, 
                             a1 = 5.0, a2 = 25.0, 
                             nu = 0.00025){
@@ -21,12 +21,13 @@ spike_slab_linear<-function(X,y,model_file,params,n_chain,chain_length,
   # Create a JAGS model
   model <- jags.model(textConnection(model_file), data = dataList, 
                       n.chains = n_chain)
+  parallel.seeds("base::BaseRNG", n_chain)
   
   # Update the model (burn-in)
   update(model, burnin)
   
   # Sample from the posterior
   samples <- coda.samples(model, variable.names = params, 
-                          n.iter = chain_length)
+                          n.iter = chain_length, thin = thin)
   retrun(samples)
 }
