@@ -29,5 +29,5 @@ spike_slab_linear<-function(X, y, model_file, params, n_chain,chain_length,
   # Sample from the posterior
   samples <- coda.samples(model, variable.names = params, 
                           n.iter = chain_length, thin = thin)
-  retrun(samples)
+  return(samples)
 }
