@@ -61,20 +61,3 @@ cv_calculation <- function(data, response, n_fold, niter = 20000,
   return(list(models = model_list, performance = performance, avg_performance = avg_performance))
 }
 
-# Example usage
-n <- 5000
-training_set <- SNPS[1:n,]
-test_set <- SNPS[(n+1):(2*n),]
-Y_train <- Y[1:n]
-Y_test <- Y[(n+1):(2*n)]
-
-# Extract the predictors (features) and choose a specific phenotype for analysis
-X <- training_set  # Extract the predictor variables
-y <- Y_train # Extract the response variable
-
-# Perform k-fold cross-validation
-n_fold <- 5 # Number of folds
-cv_results <- cv_calculation(data = X, response = y, n_fold = n_fold)
-
-# Print the average performance
-print(cv_results$avg_performance)
