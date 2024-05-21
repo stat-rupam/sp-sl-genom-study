@@ -4,14 +4,11 @@ source("~/personal/spike-slab-analysis/reusable_functions/model_configs.R")
 library(BoomSpikeSlab)
 library(cvTools)
 
-# Load necessary library
-library(cvTools)
-
 # Define the cross-validation function
-cv_calculation <- function(data, response, n_fold, niter = niter, 
-                           prior_information_weight = prior_information_weight, 
-                           diagonal_shrinkage = diagonal_shrinkage, 
-                           burn = burn) {
+cv_calculation <- function(data, response, n_fold, niter = 20000, 
+                           prior_information_weight = 0.01, 
+                           diagonal_shrinkage = 0.01, 
+                           burn = 2000) {
   n <- dim(data)[1]
   
   # Combine data and response into a single data frame
@@ -28,6 +25,7 @@ cv_calculation <- function(data, response, n_fold, niter = niter,
   # Perform k-fold cross-validation
   for (i in 1:n_fold) {
     # Split the data into training and test sets
+    print(paste0("Running MCMC For The Validation Set: ",i," ,Chain Length: ", niter))
     test_indices <- which(folds$which == i)
     train_indices <- setdiff(1:nrow(dataset), test_indices)
     
@@ -35,7 +33,7 @@ cv_calculation <- function(data, response, n_fold, niter = niter,
     test_set <- dataset[test_indices, ]
     
     # Fit the model on the training set
-    sp_sl_model <- lm.spike(
+    sp_sl_model_new <- lm.spike(
       formula = y ~ . - 1,
       data = training_set,
       niter = niter,

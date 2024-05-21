@@ -1,10 +1,11 @@
 #code for model training and model performance check
 # Load the sys library (assuming it's not a typo, sys is not a standard R package)
+install.packages("sys","coda")
 library(sys)
 # Load necessary libraries
-library(BoomSpikeSlab)  # Load the boomSpikeSlab package for the analysis
+# library(BoomSpikeSlab)  # Load the boomSpikeSlab package for the analysis
 library(coda)          # Load the coda package for MCMC chain diagnostics
-library(Cairo)         # Load the Cairo package for generating graphics
+# library(Cairo)         # Load the Cairo package for generating graphics
 
 # Load training and testing data (temporary, for re-usability; may be removed later)
 # The paths to data files are specified here
@@ -31,9 +32,13 @@ Y_test = Y[(n+1):(2*n)]
 X <- training_set  # Extract the predictor variables
 y <- Y_train # Extract the response variable
 
-cv_model <- cv_calculation(data = SNPs,
-                            response = Y,
-                           n_fold = 10)
+cv_model <- cv_calculation(data = SNPS,
+                          response = Y,
+                          n_fold = 10,
+                          niter = niter,
+                          burn = burn,
+                          diagonal_shrinkage = diagonal_shrinkage,
+                          prior_information_weight = prior_information_weight)
 
 # sp_sl_model <- lm.spike(formula = y~.-1,
 #                         data = data.frame(X,y),
