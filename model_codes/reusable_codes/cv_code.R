@@ -33,12 +33,11 @@ cv_calculation <- function(data, response, n_fold, niter = 20000,
     test_set <- dataset[test_indices, ]
     
     # Fit the model on the training set
-    sp_sl_model_new <- lm.spike(formula = y ~.- 1,
+    sp_sl_model <- lm.spike(formula = y ~.- 1,
       data = training_set,
       niter = niter,
       prior.information.weight = prior_information_weight,
-      diagonal.shrinkage = diagonal_shrinkage
-    )
+      diagonal.shrinkage = diagonal_shrinkage)
     
     # Store the model summary
     model_list[[i]] <- summary(object = sp_sl_model, burn = burn)$coefficients
