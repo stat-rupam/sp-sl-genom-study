@@ -41,7 +41,8 @@ cv_calculation <- function(data, response, n_fold, niter = 20000,
     
     # Store the model summary
     model_list[[i]] <- summary(object = sp_sl_model, burn = burn)$coefficients
-    
+	
+    paste0("Generating Samples From Posterio Distribution For Predictions On Test Set: ")
     # Predict on the test set
     predictions <- predict(object = sp_sl_model, newdata = test_set, burn = burn, mean.only = TRUE)
     
