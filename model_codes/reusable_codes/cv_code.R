@@ -7,7 +7,7 @@ library(cvTools)
 # Define the cross-validation function
 cv_calculation <- function(data, response, n_fold, niter = 20000, 
                            prior_information_weight = 0.01, 
-                           diagonal_shrinkage = 0.01, 
+                           diagonal_shrinkage = 0.5, 
                            burn = 2000) {
   n <- dim(data)[1]
   
@@ -33,8 +33,7 @@ cv_calculation <- function(data, response, n_fold, niter = 20000,
     test_set <- dataset[test_indices, ]
     
     # Fit the model on the training set
-    sp_sl_model_new <- lm.spike(
-      formula = y ~ . - 1,
+    sp_sl_model_new <- lm.spike(formula = y ~.- 1,
       data = training_set,
       niter = niter,
       prior.information.weight = prior_information_weight,

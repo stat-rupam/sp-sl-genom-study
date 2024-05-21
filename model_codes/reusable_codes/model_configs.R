@@ -1,4 +1,4 @@
 niter = 30000
 burn = 5000
-prior.information.weight = 10^-3
-diagonal.shrinkage = 10^-5
+prior_information_weight = 10^-3
+diagonal_shrinkage = 10^-5
