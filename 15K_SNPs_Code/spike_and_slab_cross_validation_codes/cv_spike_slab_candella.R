@@ -19,10 +19,12 @@ cv_analysis_single_phenotype <- function(data, phenotype, n_fold,
   cat(paste("Starting cross-validation for Phenotype:", phenotype, "\n"))
   cat("----------------------------------------\n")
   
+  # Noting the starting time
+  start.time <- Sys.time()
   # Create k folds
   set.seed(1234)
   folds <- cvFolds(n = nrow(dataset), K = n_fold)
-  
+  n <- nrow(dataset)
   # Initialize lists to store model summaries, performance metrics, and test indices
   model_list <- list()
   performance <- list()
@@ -63,7 +65,7 @@ cv_analysis_single_phenotype <- function(data, phenotype, n_fold,
     mse <- mean((test_set$y - rowMeans(predictions))^2)
     mae <- mean(abs(test_set$y - rowMeans(predictions)))
     rmse <- sqrt(mse)
-    r_squared <- 1 - (mse / var(test_set$y))
+    r_squared <- 1 - (mse/n / var(test_set$y))
     
     # Calculate credible intervals and predictive coverage
     credible_intervals <- apply(predictions, 1, quantile, probs = c(0.025, 0.975))
@@ -91,6 +93,11 @@ cv_analysis_single_phenotype <- function(data, phenotype, n_fold,
   
   # Aggregate performance metrics
   performance_df <- do.call(rbind, lapply(performance, as.data.frame))
+  #Noting the ending time
+  end.time <- Sys.time()
+  #Calculating total time taken by the system
+  time.taken <- c(time.taken_ridge, end.time - start.time)
+  cat(paste("Total time taken for the cross validation: ",time.taken))
   
   # Return results
   return(list(
@@ -98,6 +105,6 @@ cv_analysis_single_phenotype <- function(data, phenotype, n_fold,
     performance = performance,
     test_indices = test_indices_list,
     model_optimum = model_optimum,
-    optimum_cv_step <- optimum_cv_step
+    optimum_cv_step = optimum_cv_step
   ))
 }
