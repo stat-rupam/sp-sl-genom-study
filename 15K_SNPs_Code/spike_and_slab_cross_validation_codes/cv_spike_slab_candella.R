@@ -65,7 +65,7 @@ cv_analysis_single_phenotype <- function(data, phenotype, n_fold,
     mse <- mean((test_set$y - rowMeans(predictions))^2)
     mae <- mean(abs(test_set$y - rowMeans(predictions)))
     rmse <- sqrt(mse)
-    r_squared <- 1 - (mse/n / var(test_set$y))
+    r_squared <- 1 - (mse/ var(test_set$y))
     
     # Calculate credible intervals and predictive coverage
     credible_intervals <- apply(predictions, 1, quantile, probs = c(0.025, 0.975))
@@ -97,7 +97,7 @@ cv_analysis_single_phenotype <- function(data, phenotype, n_fold,
   end.time <- Sys.time()
   #Calculating total time taken by the system
   time.taken <- c(time.taken_ridge, end.time - start.time)
-  cat(paste("Total time taken for the cross validation: ",time.taken))
+  print(paste("Total time taken for the cross validation: ",time.taken))
   
   # Return results
   return(list(
